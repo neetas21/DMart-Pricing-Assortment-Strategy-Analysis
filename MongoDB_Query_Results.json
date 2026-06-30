@@ -1,0 +1,489 @@
+[
+  {
+    "query": "Q1_avg_discount_by_category",
+    "pipeline": [
+      {
+        "$group": {
+          "_id": "$Category",
+          "avg_discount_pct": {
+            "$avg": "$Discount_Pct"
+          },
+          "sku_count": {
+            "$sum": 1
+          }
+        }
+      },
+      {
+        "$sort": {
+          "avg_discount_pct": -1
+        }
+      },
+      {
+        "$limit": 10
+      }
+    ],
+    "result": [
+      {
+        "avg_discount_pct": 59.86714285714286,
+        "sku_count": 7,
+        "_id": "Electronics & Accessories"
+      },
+      {
+        "avg_discount_pct": 58.34,
+        "sku_count": 1,
+        "_id": "Smartwatches"
+      },
+      {
+        "avg_discount_pct": 51.73307692307692,
+        "sku_count": 13,
+        "_id": "Backpacks"
+      },
+      {
+        "avg_discount_pct": 37.615,
+        "sku_count": 2,
+        "_id": "Computer Accessories"
+      },
+      {
+        "avg_discount_pct": 32.361546391752576,
+        "sku_count": 97,
+        "_id": "Clothing & Accessories"
+      },
+      {
+        "avg_discount_pct": 31.653396226415097,
+        "sku_count": 53,
+        "_id": "Appliances"
+      },
+      {
+        "avg_discount_pct": 30.972608695652173,
+        "sku_count": 23,
+        "_id": "Plant Container"
+      },
+      {
+        "avg_discount_pct": 29.15304347826087,
+        "sku_count": 46,
+        "_id": "Beauty & Cosmetics"
+      },
+      {
+        "avg_discount_pct": 29.106534988713317,
+        "sku_count": 886,
+        "_id": "Home & Kitchen"
+      },
+      {
+        "avg_discount_pct": 28.67933274021352,
+        "sku_count": 1124,
+        "_id": "Packaged Food"
+      }
+    ]
+  },
+  {
+    "query": "Q2_top_brands_avg_price",
+    "pipeline": [
+      {
+        "$group": {
+          "_id": "$Brand",
+          "avg_price": {
+            "$avg": "$Price"
+          },
+          "sku_count": {
+            "$sum": 1
+          }
+        }
+      },
+      {
+        "$match": {
+          "sku_count": {
+            "$gte": 5
+          }
+        }
+      },
+      {
+        "$sort": {
+          "avg_price": -1
+        }
+      },
+      {
+        "$limit": 10
+      }
+    ],
+    "result": [
+      {
+        "avg_price": 3275.714285714286,
+        "sku_count": 7,
+        "_id": "Boat"
+      },
+      {
+        "avg_price": 2970.0,
+        "sku_count": 10,
+        "_id": "Wonderchef"
+      },
+      {
+        "avg_price": 2398.0,
+        "sku_count": 10,
+        "_id": "Usha"
+      },
+      {
+        "avg_price": 2304.4545454545455,
+        "sku_count": 11,
+        "_id": "Crompton Greaves"
+      },
+      {
+        "avg_price": 2158.9285714285716,
+        "sku_count": 14,
+        "_id": "Prestige"
+      },
+      {
+        "avg_price": 2099.0,
+        "sku_count": 8,
+        "_id": "Raymond"
+      },
+      {
+        "avg_price": 2094.0,
+        "sku_count": 10,
+        "_id": "Portronics"
+      },
+      {
+        "avg_price": 2009.3529411764705,
+        "sku_count": 17,
+        "_id": "Bajaj"
+      },
+      {
+        "avg_price": 1908.375,
+        "sku_count": 8,
+        "_id": "Wildcraft"
+      },
+      {
+        "avg_price": 1700.2307692307693,
+        "sku_count": 13,
+        "_id": "Pigeon"
+      }
+    ]
+  },
+  {
+    "query": "Q3_brand_concentration",
+    "pipeline": [
+      {
+        "$group": {
+          "_id": {
+            "category": "$Category",
+            "brand": "$Brand"
+          },
+          "sku_count": {
+            "$sum": 1
+          }
+        }
+      },
+      {
+        "$match": {
+          "sku_count": {
+            "$gt": 10
+          }
+        }
+      },
+      {
+        "$sort": {
+          "sku_count": -1
+        }
+      },
+      {
+        "$limit": 10
+      }
+    ],
+    "result": [
+      {
+        "sku_count": 157,
+        "_id": {
+          "category": "Grocery",
+          "brand": "Unbranded/DMart"
+        }
+      },
+      {
+        "sku_count": 154,
+        "_id": {
+          "category": "Grocery",
+          "brand": "Premia"
+        }
+      },
+      {
+        "sku_count": 101,
+        "_id": {
+          "category": "Home & Kitchen",
+          "brand": "Unbranded/DMart"
+        }
+      },
+      {
+        "sku_count": 97,
+        "_id": {
+          "category": "Personal Care",
+          "brand": "Faces Canada"
+        }
+      },
+      {
+        "sku_count": 82,
+        "_id": {
+          "category": "Personal Care",
+          "brand": "Insight"
+        }
+      },
+      {
+        "sku_count": 70,
+        "_id": {
+          "category": "Personal Care",
+          "brand": "Lakme"
+        }
+      },
+      {
+        "sku_count": 69,
+        "_id": {
+          "category": "Fruits & Vegetables",
+          "brand": "Unbranded/DMart"
+        }
+      },
+      {
+        "sku_count": 66,
+        "_id": {
+          "category": "Grocery",
+          "brand": "Satyam"
+        }
+      },
+      {
+        "sku_count": 60,
+        "_id": {
+          "category": "Dairy & Beverages",
+          "brand": "Amul"
+        }
+      },
+      {
+        "sku_count": 44,
+        "_id": {
+          "category": "Personal Care",
+          "brand": "Gillette"
+        }
+      }
+    ]
+  },
+  {
+    "query": "Q4_price_band_distribution",
+    "pipeline": [
+      {
+        "$match": {
+          "Category": {
+            "$in": [
+              "Personal Care",
+              "Packaged Food",
+              "Grocery"
+            ]
+          }
+        }
+      },
+      {
+        "$group": {
+          "_id": {
+            "category": "$Category",
+            "band": "$Price_Band"
+          },
+          "count": {
+            "$sum": 1
+          }
+        }
+      },
+      {
+        "$sort": {
+          "_id.category": 1,
+          "count": -1
+        }
+      }
+    ],
+    "result": [
+      {
+        "count": 499,
+        "_id": {
+          "category": "Grocery",
+          "band": "Budget (<100)"
+        }
+      },
+      {
+        "count": 318,
+        "_id": {
+          "category": "Grocery",
+          "band": "Mid (100-300)"
+        }
+      },
+      {
+        "count": 148,
+        "_id": {
+          "category": "Grocery",
+          "band": "Upper-Mid (300-700)"
+        }
+      },
+      {
+        "count": 93,
+        "_id": {
+          "category": "Grocery",
+          "band": "Premium (700+)"
+        }
+      },
+      {
+        "count": 726,
+        "_id": {
+          "category": "Packaged Food",
+          "band": "Budget (<100)"
+        }
+      },
+      {
+        "count": 339,
+        "_id": {
+          "category": "Packaged Food",
+          "band": "Mid (100-300)"
+        }
+      },
+      {
+        "count": 52,
+        "_id": {
+          "category": "Packaged Food",
+          "band": "Upper-Mid (300-700)"
+        }
+      },
+      {
+        "count": 7,
+        "_id": {
+          "category": "Packaged Food",
+          "band": "Premium (700+)"
+        }
+      },
+      {
+        "count": 649,
+        "_id": {
+          "category": "Personal Care",
+          "band": "Mid (100-300)"
+        }
+      },
+      {
+        "count": 342,
+        "_id": {
+          "category": "Personal Care",
+          "band": "Budget (<100)"
+        }
+      },
+      {
+        "count": 207,
+        "_id": {
+          "category": "Personal Care",
+          "band": "Upper-Mid (300-700)"
+        }
+      },
+      {
+        "count": 35,
+        "_id": {
+          "category": "Personal Care",
+          "band": "Premium (700+)"
+        }
+      }
+    ]
+  },
+  {
+    "query": "Q5_top_discounted_products",
+    "pipeline": [
+      {
+        "$sort": {
+          "Discount_Pct": -1
+        }
+      },
+      {
+        "$limit": 10
+      },
+      {
+        "$project": {
+          "_id": 0,
+          "Name": 1,
+          "Brand": 1,
+          "Category": 1,
+          "Price": 1,
+          "DiscountedPrice": 1,
+          "Discount_Pct": 1
+        }
+      }
+    ],
+    "result": [
+      {
+        "Name": "Naagin Indian Hot Sauce - Original",
+        "Brand": "Naagin",
+        "Category": "Packaged Food",
+        "Price": 50.0,
+        "DiscountedPrice": 1.0,
+        "Discount_Pct": 98.0
+      },
+      {
+        "Name": "Naagin Indian Hot Sauce - Smoky Bhoot",
+        "Brand": "Naagin",
+        "Category": "Packaged Food",
+        "Price": 50.0,
+        "DiscountedPrice": 1.0,
+        "Discount_Pct": 98.0
+      },
+      {
+        "Name": "Naagin Indian Hot Sauce - Kantha Bomb",
+        "Brand": "Naagin",
+        "Category": "Packaged Food",
+        "Price": 50.0,
+        "DiscountedPrice": 1.0,
+        "Discount_Pct": 98.0
+      },
+      {
+        "Name": "Disposable FFP2 Face Mask",
+        "Brand": "Unbranded/DMart",
+        "Category": "Grocery",
+        "Price": 425.0,
+        "DiscountedPrice": 60.0,
+        "Discount_Pct": 85.88
+      },
+      {
+        "Name": "Geep Micro USB High Speed Charging Cable (1 Metre)",
+        "Brand": "Geep",
+        "Category": "Electronics & Accessories",
+        "Price": 299.0,
+        "DiscountedPrice": 49.0,
+        "Discount_Pct": 83.61
+      },
+      {
+        "Name": "Micro USB Charging Cable (1 Metre)",
+        "Brand": "Unbranded/DMart",
+        "Category": "Home & Kitchen",
+        "Price": 249.0,
+        "DiscountedPrice": 49.0,
+        "Discount_Pct": 80.32
+      },
+      {
+        "Name": "Zebronics Aux Cable ASC100",
+        "Brand": "Zebronics",
+        "Category": "Appliances",
+        "Price": 169.0,
+        "DiscountedPrice": 34.0,
+        "Discount_Pct": 79.88
+      },
+      {
+        "Name": "Syska LED Bulb B22 6500K",
+        "Brand": "Syska",
+        "Category": "Grocery",
+        "Price": 329.0,
+        "DiscountedPrice": 73.0,
+        "Discount_Pct": 77.81
+      },
+      {
+        "Name": "Dr.WaterR Stainless Steel Milk Frother",
+        "Brand": "Dr.WaterR",
+        "Category": "Home & Kitchen",
+        "Price": 1499.0,
+        "DiscountedPrice": 349.0,
+        "Discount_Pct": 76.72
+      },
+      {
+        "Name": "Trident Comfort Living Bath Towel 380 GSM - Tango Tomato",
+        "Brand": "Trident",
+        "Category": "Grocery",
+        "Price": 599.0,
+        "DiscountedPrice": 149.0,
+        "Discount_Pct": 75.13
+      }
+    ]
+  }
+]
